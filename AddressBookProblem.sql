@@ -36,3 +36,6 @@ select* from Address_Book;
 /*Retrieve Data City and state wise*/
 select * from Address_Book
 where City = 'Kolkata' or State = 'WB';
+/*Count contacts by city and state*/
+select COUNT(City), City, State from Address_Book
+group by State, City;
