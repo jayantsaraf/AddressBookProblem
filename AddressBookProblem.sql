@@ -18,3 +18,10 @@ Email varchar(20) not null
 );
 /*View table details*/
 select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'Address_Book';
+/*Add Contacts*/
+insert into Address_Book values
+('Jayant','Saraf','Chinar Park','Kolkata','WB','700157','8017126325','saraf24@gmail.com'),
+('Ajay','Kapoor','New Market','Kolkata','WB','754874','123456789','ak@gmail.com'),
+('Mayank','Saraf','central','kolkata','WB','745688','7894561237','mayank@gmail.com');
+/*View AddressBook*/
+select* from Address_Book;
