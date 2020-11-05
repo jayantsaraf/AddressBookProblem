@@ -43,3 +43,11 @@ group by State, City;
 select * from Address_Book
 where City = 'Kolkata'
 order by FirstName asc;
+-- Add Contact Type - Friends or Family
+alter table Address_Book add Contact_Type varchar(10)
+-- Count contacts by type of contact
+update Address_Book set Contact_Type = 'Family' where FirstName = 'Jayant' 
+update Address_Book set Contact_Type = 'Friend' where FirstName = 'Ajay' 
+update Address_Book set Contact_Type = 'Friend' where FirstName = 'Mayank' 
+select Contact_Type from Address_Book
+group by Contact_Type
