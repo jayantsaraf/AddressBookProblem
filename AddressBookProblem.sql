@@ -69,42 +69,74 @@ insert into Address_Book values
 --Create table Contact_Info
 create table Contact_Info
 (
-FirstName varchar(25) not null primary key,
+ContactId int identity(1,1) not null primary key,
+FirstName varchar(25) not null,
 LastName varchar(25) not null,
-Address varchar(60) not null,
-City varchar(15) not null,
-State varchar(20) not null,
-Zipcode varchar(6) not null,
 PhoneNumber varchar(12) not null,
 Email varchar(20) not null
 );
+select * from Contact_Info
 --Insert into Contact_Info
 insert into Contact_Info values
-('Jayant','Saraf','Chinar Park','Kolkata','WB','700157','8017126325','saraf24@gmail.com'),
-('Ajay','Kapoor','New Market','Kolkata','WB','754874','123456789','ak@gmail.com'),
-('Mayank','Saraf','central','kolkata','WB','745688','7894561237','mayank@gmail.com');
+('Jayant','Saraf','8017126325','saraf24@gmail.com'),
+('Ajay','Kapoor','123456789','ak@gmail.com'),
+('Mayank','Saraf','7894561237','mayank@gmail.com');
 insert into Contact_Info values
-('Bill','Jones','Street 4','Mumbai','Maharashtra','452856','9856985696','billjones@gmail.com');
+('Bill','Jones','9856985696','billjones@gmail.com');
+select * from Contact_Info
 --ContactType table added
 create table Contact_Type
 (
-FirstName varchar(25) not null foreign key references Contact_Info(FirstName),
+ContactId int not null foreign key references Contact_Info(ContactId) on delete cascade,
 Contact_Type varchar(20) not null
 );
+select* from Contact_Type
 --Add enteries to contact_type
 insert into Contact_Type values
-('Jayant','Family'),
-('Ajay','Friend'),
-('Mayank','Friend'),
-('Bill','Family');
+('1','Family'),
+('2','Friend'),
+('3','Friend'),
+('4','Family');
 insert into Contact_Type values
-('Jayant','Friend');
+('5','Friend');
+
+create table Address
+(
+ContactId int foreign key references Contact_Info(ContactId) on delete cascade,
+Address varchar(60) not null,
+City varchar(15) not null,
+State varchar(20) not null,
+Zipcode varchar(6) not null
+);
+--Insert into Address table
+insert into Address values
+(1,'Chinar Park','Kolkata','WB','700157'),
+(2,'New Market','Kolkata','WB','754874'),
+(3,'central','kolkata','WB','745688'),
+(4,'Street 4','Mumbai','Maharashtra','452856'),
+(5,'Chinar Park','Kolkata','WB','700157');
 --View Contact_type
 select * from Contact_Type
 --Join contact_info and contact_type
-select * from Contact_Info contact inner join Contact_Type type
-on (contact.FirstName = type.FirstName) 
+select * from (Contact_Info contact inner join Contact_Type type
+on (contact.ContactId = type.ContactId)) inner join Address address on address.ContactId = contact.ContactId
 --Count contact by type
 select type.Contact_Type, COUNT(contact.FirstName) from Contact_Info contact inner join Contact_Type type
-on (contact.FirstName = type.FirstName)
-Group by type.Contact_Type;
+on (contact.ContactId = type.ContactId)
+Group by type.Contact_Type; 
+--Add DateAdded field to the contact_info
+Alter table Contact_Info
+Add DateAdded datetime
+--Add DateAdded
+Update Contact_Info set 
+DateAdded = '2019-05-31' where ContactId = 1
+Update Contact_Info set 
+DateAdded = '2020-05-06' where ContactId = 2
+Update Contact_Info set 
+DateAdded = '2019-04-01' where ContactId = 3
+Update Contact_Info set 
+DateAdded = '2018-03-09' where ContactId = 4
+Update Contact_Info set 
+DateAdded = '2019-08-07' where ContactId = 5
+Update Contact_Info set 
+DateAdded = '2020-09-30' where ContactId = 6
