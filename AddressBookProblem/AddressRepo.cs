@@ -14,11 +14,11 @@ namespace AddressBookProblem
             try
             {
                 Contact contact = new Contact();
-                using (this.connection)
+                using (connection)
                 {
                     string query = @"Select * from (Contact_Info ci inner join Contact_Type ct on ci.ContactId = ct.ContactId) inner join Address ad on ci.ContactId = ad.ContactId;";
-                    SqlCommand cmd = new SqlCommand(query, this.connection);
-                    this.connection.Open();
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.HasRows)
                     {
@@ -47,6 +47,36 @@ namespace AddressBookProblem
             {
                 System.Console.WriteLine(e.Message);
             }
+        }
+        public bool UpdateContact(Contact contact)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = @"Update Contact_Info set PhoneNumber = '" + contact.PhoneNumber + "', Email = '" + contact.Email +
+                        "' where FirstName = '" + contact.FirstName + "' and LastName = '" + contact.LastName + "'";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
         }
     }
 }
