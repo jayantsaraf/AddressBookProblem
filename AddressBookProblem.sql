@@ -2,7 +2,6 @@
 create database Address_Book_Database;
 -- Use Database
 use Address_Book_Database;
-Create Table
 select DB_NAME()
 /*Creating AddressBook table*/
 create table Address_Book
@@ -23,6 +22,8 @@ insert into Address_Book values
 ('Jayant','Saraf','Chinar Park','Kolkata','WB','700157','8017126325','saraf24@gmail.com'),
 ('Ajay','Kapoor','New Market','Kolkata','WB','754874','123456789','ak@gmail.com'),
 ('Mayank','Saraf','central','kolkata','WB','745688','7894561237','mayank@gmail.com');
+insert into Address_Book values
+('Jayant','Saraf','Chinar Park','Kolkata','WB','700157','8017126325','saraf24@gmail.com','Friend');
 /*View AddressBook*/
 select* from Address_Book;
 /*Update existing contact*/
@@ -49,5 +50,12 @@ alter table Address_Book add Contact_Type varchar(10)
 update Address_Book set Contact_Type = 'Family' where FirstName = 'Jayant' 
 update Address_Book set Contact_Type = 'Friend' where FirstName = 'Ajay' 
 update Address_Book set Contact_Type = 'Friend' where FirstName = 'Mayank' 
-select Contact_Type from Address_Book
+select Contact_Type, COUNT(Contact_Type) from Address_Book
 group by Contact_Type
+
+alter table Address_Book
+add Book_Name varchar(20)
+--Update Contacts for book_name
+update Address_Book set  Book_Name ='Office' where FirstName in ( 'Jayant','Ajay');
+update Address_Book set  Book_Name ='Home' where FirstName in ('Mayank');
+select * from Address_Book;
