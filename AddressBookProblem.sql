@@ -59,3 +59,48 @@ add Book_Name varchar(20)
 update Address_Book set  Book_Name ='Office' where FirstName in ( 'Jayant','Ajay');
 update Address_Book set  Book_Name ='Home' where FirstName in ('Mayank');
 select * from Address_Book;
+
+--Count contacts by contact type
+select Contact_Type, COUNT(Contact_Type) from Address_Book
+group by Contact_Type
+--Adding contact bill to family also
+insert into Address_Book values
+('Jayant','Saraf','Chinar Park','Kolkata','WB','700157','8017126325','saraf24@gmail.com','Friend','office');
+--Create table Contact_Info
+create table Contact_Info
+(
+FirstName varchar(25) not null primary key,
+LastName varchar(25) not null,
+Address varchar(60) not null,
+City varchar(15) not null,
+State varchar(20) not null,
+Zipcode varchar(6) not null,
+PhoneNumber varchar(12) not null,
+Email varchar(20) not null
+);
+--Insert into Contact_Info
+insert into Contact_Info values
+('Jayant','Saraf','Chinar Park','Kolkata','WB','700157','8017126325','saraf24@gmail.com'),
+('Ajay','Kapoor','New Market','Kolkata','WB','754874','123456789','ak@gmail.com'),
+('Mayank','Saraf','central','kolkata','WB','745688','7894561237','mayank@gmail.com');
+insert into Contact_Info values
+('Bill','Jones','Street 4','Mumbai','Maharashtra','452856','9856985696','billjones@gmail.com');
+--ContactType table added
+create table Contact_Type
+(
+FirstName varchar(25) not null foreign key references Contact_Info(FirstName),
+Contact_Type varchar(20) not null
+);
+--Add enteries to contact_type
+insert into Contact_Type values
+('Jayant','Family'),
+('Ajay','Friend'),
+('Mayank','Friend'),
+('Bill','Family');
+insert into Contact_Type values
+('Jayant','Friend');
+--View Contact_type
+select * from Contact_Type
+--Join contact_info and contact_type
+select * from Contact_Info contact inner join Contact_Type type
+on (contact.FirstName = type.FirstName) 
